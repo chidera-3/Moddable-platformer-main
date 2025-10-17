@@ -1,0 +1,176 @@
+[gd_scene load_steps=20 format=4 uid="uid://dhcpt1kt8cs0g"]
+
+[ext_resource type="PackedScene" uid="uid://8st4scqt06l8" path="res://components/player/player.tscn" id="2_7yl00"]
+[ext_resource type="PackedScene" uid="uid://jnrusvm3gric" path="res://spaces/background.tscn" id="2_tb5a2"]
+[ext_resource type="PackedScene" uid="uid://cswheshouik14" path="res://rules_goals/game_logic.tscn" id="3_xbkvd"]
+[ext_resource type="PackedScene" uid="uid://danlrmsfmsros" path="res://spaces/tilemap.tscn" id="3_yfnmv"]
+[ext_resource type="PackedScene" uid="uid://dthyncc3spfks" path="res://spaces/dangerzone.tscn" id="4_2mg6t"]
+[ext_resource type="PackedScene" uid="uid://coq6d3u6wnvs2" path="res://components/platform/platform.tscn" id="4_gd51l"]
+[ext_resource type="PackedScene" uid="uid://daf24t18h3n5e" path="res://components/coin/coin.tscn" id="5_u7hr5"]
+[ext_resource type="TileSet" uid="uid://b0q77tmtfmfe3" path="res://spaces/tileset-c.tres" id="5_w48qg"]
+[ext_resource type="PackedScene" uid="uid://jt80gv02u4f2" path="res://hud.tscn" id="6_mp7wy"]
+[ext_resource type="PackedScene" uid="uid://iwih6scdlmnp" path="res://moving_platform.tscn" id="8_2cqfq"]
+[ext_resource type="PackedScene" uid="uid://dk0xon0k7ga23" path="res://components/enemy/enemy.tscn" id="9_l6smt"]
+[ext_resource type="SpriteFrames" uid="uid://cgp7i5owjqp12" path="res://components/player/spriteframes-blue.tres" id="9_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://beuisy5yrw0bq" path="res://components/flag/flag.tscn" id="12_dkbog"]
+[ext_resource type="Script" uid="uid://boqbxvbja884q" path="res://scripts/multiplayer_camera.gd" id="13_0d2mj"]
+[ext_resource type="SpriteFrames" uid="uid://bvs66x1xcm6k8" path="res://components/flag/flag-spriteframes-red.tres" id="14_vivmo"]
+[ext_resource type="AudioStream" uid="uid://d23ff1wkh5fe3" path="res://assets/624126__dibko__morning-chirping-of-birds.mp3" id="16_2cqfq"]
+
+[sub_resource type="Animation" id="Animation_074og"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1888, -120)]
+}
+
+[sub_resource type="Animation" id="Animation_yaehf"]
+resource_name = "left_right"
+length = 3.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1888, -120), Vector2(793, -120)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cegan"]
+_data = {
+&"RESET": SubResource("Animation_074og"),
+&"left_right": SubResource("Animation_yaehf")
+}
+
+[node name="Main" type="Node2D"]
+
+[node name="GameLogic" parent="." instance=ExtResource("3_xbkvd")]
+win_by_collecting_coins = true
+win_by_reaching_flag = true
+
+[node name="Background" parent="." instance=ExtResource("2_tb5a2")]
+tint = Color(0.38773, 0.682904, 0.395715, 1)
+
+[node name="Dangerzone" parent="." instance=ExtResource("4_2mg6t")]
+position = Vector2(3072, 1216)
+
+[node name="TileMap" parent="." instance=ExtResource("3_yfnmv")]
+position = Vector2(1, 0)
+tile_map_data = PackedByteArray("AAABAAIAAAAGAAAAAAADAAIAAAAHAAAAAAACAAIAAAAGAAAAAAASAAUAAAAJAAIAAAD//wgAAAAKAAEAAAD//wcAAAAKAAEAAAD//wYAAAAKAAEAAAD//wAAAAAKAAEAAAD//wEAAAAKAAEAAAD//wIAAAAKAAEAAAD//wMAAAAKAAEAAAD//wQAAAAKAAEAAAD/////AAAKAAEAAAD///7/AAAKAAEAAAD///3/AAAKAAEAAAAiAAgAAAAKAAEAAAAiAAcAAAAKAAEAAAAiAAYAAAAKAAEAAAAiAAUAAAAKAAEAAAAiAAQAAAAKAAEAAAAiAAMAAAAKAAEAAAAiAAIAAAAKAAEAAAAiAAEAAAAKAAEAAAAiAAAAAAAKAAEAAAAiAP//AAAKAAEAAAAiAP3/AAAKAAEAAAAiAP7/AAAKAAEAAAAbAAYAAAACAAAAAAAcAAYAAAABAAIAAAAeAAcAAAAAAAIAAAAdAAYAAAAAAAAAAAAhAAcAAAAAAAEAAAAgAAcAAAAAAAAAAAAfAAcAAAAAAAAAAAAjAP3/AAAAAAAAAAAkAP3/AAAAAAAAAAAlAP3/AAAAAAEAAAAmAP3/AAAAAAAAAAAnAP3/AAAAAAAAAAAnAP7/AAAAAAAAAAAmAP7/AAAAAAAAAAAlAP7/AAAAAAAAAAAkAP7/AAAAAAAAAAAjAP7/AAAAAAAAAAAjAPz/AAAAAAAAAAAjAPv/AAAAAAAAAAAkAPv/AAAAAAEAAAAlAPv/AAAAAAAAAAAmAPv/AAAAAAAAAAAnAPv/AAAAAAAAAAAnAPz/AAAAAAAAAAAmAPz/AAAAAAAAAAAlAPz/AAAAAAAAAAAkAPz/AAAAAAAAAAAkAP//AAAAAAEAAAAkAAAAAAAAAAAAAAAkAAEAAAAAAAAAAAAkAAIAAAAAAAEAAAAkAAMAAAAAAAAAAAAkAAQAAAAAAAAAAAAkAAUAAAAAAAAAAAAkAAYAAAAAAAEAAAAkAAcAAAAAAAAAAAAkAAgAAAAAAAAAAAAjAAgAAAAAAAAAAAAjAAcAAAAAAAAAAAAjAAYAAAAAAAAAAAAjAAUAAAAAAAAAAAAjAAQAAAAAAAAAAAAjAAMAAAAAAAAAAAAjAAIAAAAAAAAAAAAjAAEAAAAAAAAAAAAjAAAAAAAAAAAAAAAjAP//AAAAAAAAAAAlAP//AAAAAAAAAAAlAAAAAAAAAAAAAAAlAAEAAAAAAAEAAAAlAAIAAAAAAAAAAAAlAAMAAAAAAAAAAAAlAAQAAAAAAAEAAAAlAAUAAAAAAAAAAAAlAAYAAAAAAAAAAAAlAAcAAAAAAAAAAAAlAAgAAAAAAAAAAAAmAAgAAAAAAAAAAAAmAAcAAAAAAAAAAAAmAAYAAAAAAAAAAAAmAAUAAAAAAAAAAAAmAAQAAAAAAAAAAAAmAAMAAAAAAAAAAAAmAAIAAAAAAAAAAAAmAAEAAAAAAAAAAAAmAAAAAAAAAAAAAAAmAP//AAAAAAAAAAAnAP//AAAAAAAAAAAnAAAAAAAAAAAAAAAnAAEAAAAAAAAAAAAnAAIAAAAAAAAAAAAnAAMAAAAAAAAAAAAnAAQAAAAAAAAAAAAnAAUAAAAAAAAAAAAnAAYAAAAAAAAAAAAnAAcAAAAAAAAAAAAnAAgAAAAAAAAAAAAiAPv/AAAKAAEAAAAiAPz/AAAKAAEAAAD///v/AAAKAAEAAAD///z/AAAKAAEAAAAoAPv/AAAAAAAAAAAoAPz/AAAAAAAAAAAoAP3/AAAAAAAAAAAoAP7/AAAAAAAAAAAoAP//AAAAAAAAAAAoAAAAAAAAAAAAAAAoAAEAAAAAAAAAAAAoAAIAAAAAAAAAAAAoAAMAAAAAAAAAAAAoAAQAAAAAAAAAAAAoAAUAAAAAAAAAAAAoAAYAAAAAAAAAAAAoAAcAAAAAAAAAAAAoAAgAAAAAAAAAAAAjAPj/AAAAAAAAAAAjAPn/AAAAAAAAAAAjAPr/AAAAAAAAAAAkAPj/AAAAAAAAAAAkAPn/AAAAAAEAAAAkAPr/AAAAAAAAAAAlAPj/AAAAAAAAAAAlAPn/AAAAAAAAAAAlAPr/AAAAAAAAAAAmAPj/AAAAAAAAAAAmAPn/AAAAAAAAAAAmAPr/AAAAAAEAAAAnAPr/AAAAAAAAAAAnAPn/AAAAAAAAAAAnAPj/AAAAAAAAAAAoAPr/AAAAAAAAAAAoAPn/AAAAAAAAAAAoAPj/AAAAAAAAAAAoAPb/AAAAAAAAAAAnAPb/AAAAAAAAAAAmAPb/AAAAAAAAAAAlAPb/AAAAAAAAAAAkAPb/AAAAAAAAAAAjAPb/AAAAAAAAAAAjAPf/AAAAAAAAAAAkAPf/AAAAAAAAAAAlAPf/AAAAAAEAAAAmAPf/AAAAAAAAAAAnAPf/AAAAAAAAAAAoAPf/AAAAAAAAAAAiAPb/AAAKAAEAAAAiAPf/AAAKAAEAAAAiAPj/AAAKAAEAAAAiAPn/AAAKAAEAAAAiAPr/AAAKAAEAAAApAPb/AAAAAAAAAAApAPf/AAAAAAAAAAApAPj/AAAAAAAAAAApAPn/AAAAAAAAAAApAPr/AAAAAAAAAAApAPv/AAAAAAAAAAApAPz/AAAAAAAAAAApAP3/AAAAAAAAAAApAP7/AAAAAAAAAAApAP//AAAAAAAAAAApAAAAAAAAAAAAAAApAAEAAAAAAAAAAAApAAIAAAAAAAAAAAApAAMAAAAAAAAAAAApAAQAAAAAAAAAAAApAAUAAAAAAAAAAAApAAYAAAAAAAAAAAApAAcAAAAAAAAAAAApAAgAAAAAAAAAAAAcAAcAAAAAAAAAAAAdAAcAAAAAAAAAAAAbAAUAAAAJAAIAAAAAAAgAAAAKAAEAAAABAAgAAAAKAAEAAAACAAgAAAAKAAEAAAADAAgAAAAKAAEAAAAEAAgAAAAKAAEAAAAFAAgAAAAKAAEAAAAGAAgAAAAKAAEAAAAHAAgAAAAKAAEAAAAIAAgAAAAKAAEAAAAJAAgAAAAKAAEAAAAOAAgAAAAKAAEAAAAPAAgAAAAKAAEAAAAQAAgAAAAKAAEAAAARAAgAAAAKAAEAAAANAAgAAAAKAAEAAAAMAAgAAAAKAAEAAAALAAgAAAAKAAEAAAAKAAgAAAAKAAEAAAASAAgAAAAKAAEAAAATAAgAAAAAAAIAAAAYAAcAAAAAAAIAAAAZAAgAAAAKAAEAAAAaAAcAAAAAAAAAAAAbAAcAAAAAAAEAAAAcAAgAAAAKAAEAAAAdAAgAAAAKAAEAAAAeAAgAAAAKAAEAAAAfAAgAAAAKAAEAAAAgAAgAAAAKAAEAAAAaAAgAAAAKAAEAAAAbAAgAAAAKAAEAAAAhAAgAAAAKAAEAAAATAAYAAAADAAAAAAATAAcAAAAAAAEAAAAUAAgAAAAAAAAAAAD//wUAAAAKAAEAAAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAACAAcAAAAAAAEAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAcAAAAAAAIAAAAHAAcAAAAAAAAAAAAIAAcAAAAAAAAAAAAJAAcAAAAAAAAAAAAKAAcAAAAAAAEAAAALAAcAAAAAAAAAAAAMAAcAAAAAAAAAAAANAAcAAAAAAAAAAAAOAAcAAAAAAAIAAAAPAAcAAAAAAAAAAAAQAAcAAAAAAAAAAAARAAcAAAAAAAAAAAASAAcAAAAAAAAAAAAAAAYAAAABAAAAAAABAAYAAAACAAAAAAACAAYAAAACAAAAAAADAAYAAAACAAAAAAAEAAYAAAACAAAAAAAFAAYAAAACAAAAAAAGAAYAAAACAAAAAAAHAAYAAAACAAAAAAAIAAYAAAACAAAAAAAJAAYAAAACAAAAAAAKAAYAAAACAAAAAAALAAYAAAACAAAAAAAMAAYAAAACAAAAAAANAAYAAAACAAAAAAAOAAYAAAACAAAAAAAPAAYAAAACAAAAAAAQAAYAAAACAAAAAAARAAYAAAACAAAAAAASAAYAAAACAAAAAAAVAAgAAAAAAAAAAAAWAAgAAAAAAAAAAAAXAAgAAAAAAAAAAAAEAAUAAAAJAAIAAAAKAAUAAAALAAIAAAAOAAUAAAALAAAAAAALAAUAAAAJAAAAAAAYAAgAAAAAAAEAAAAgAAYAAAAAAAAAAAAhAAYAAAAAAAAAAAAfAAYAAAAAAAAAAAAeAAYAAAAAAAAAAAAaAAYAAAACAAAAAAAZAAYAAAACAAAAAAAYAAYAAAABAAAAAAAZAAcAAAAAAAAAAAAcAAUAAAABAAEAAAAdAAQAAAABAAEAAAAdAAUAAAABAAIAAAAeAAMAAAABAAEAAAAeAAQAAAABAAIAAAAfAAMAAAACAAAAAAAgAAMAAAACAAAAAAAhAAMAAAACAAAAAAAeAAUAAAAAAAEAAAAfAAUAAAAAAAAAAAAfAAQAAAAAAAAAAAAgAAQAAAAAAAAAAAAgAAUAAAAAAAIAAAAhAAUAAAAAAAAAAAAhAAQAAAAAAAAAAAABAAUAAAALAAAAAAAAAAIAAAAFAAAAAAAAAAUAAAAJAAAAAAAGAAAAAAAFAAAAAAAHAAAAAAAGAAAAAAAIAAAAAAAHAAAAAAAgAAAAAAAFAAAAAAAhAAAAAAAHAAAAAAACAAEAAAALAAIAAAAfAAIAAAAJAAIAAAAhAAEAAAAKAAAAAGAgAAIAAAALAAAAAAAJAAAAAAAKAAAAAFAGAP//AAAJAAAAAAA=")
+tile_set = ExtResource("5_w48qg")
+
+[node name="Jewels" type="Node2D" parent="."]
+
+[node name="Jewel" parent="Jewels" instance=ExtResource("5_u7hr5")]
+modulate = Color(0.454902, 0.905882, 1, 1)
+position = Vector2(932, 637)
+scale = Vector2(1.2, 1.28)
+tint = Color(0.454902, 0.905882, 1, 1)
+
+[node name="Jewel5" parent="Jewels" instance=ExtResource("5_u7hr5")]
+modulate = Color(0.454902, 0.905882, 1, 1)
+position = Vector2(100, 202)
+scale = Vector2(1.2, 1.28)
+tint = Color(0.454902, 0.905882, 1, 1)
+
+[node name="Jewel6" parent="Jewels" instance=ExtResource("5_u7hr5")]
+modulate = Color(0.454902, 0.905882, 1, 1)
+position = Vector2(950, -67)
+scale = Vector2(1.2, 1.28)
+tint = Color(0.454902, 0.905882, 1, 1)
+
+[node name="Jewel2" parent="Jewels" instance=ExtResource("5_u7hr5")]
+modulate = Color(0.454902, 0.905882, 1, 1)
+position = Vector2(1911, 643)
+scale = Vector2(1.2, 1.28)
+tint = Color(0.454902, 0.905882, 1, 1)
+
+[node name="Jewel3" parent="Jewels" instance=ExtResource("5_u7hr5")]
+modulate = Color(0.454902, 0.905882, 1, 1)
+position = Vector2(3355, 681)
+scale = Vector2(1.2, 1.28)
+tint = Color(0.454902, 0.905882, 1, 1)
+
+[node name="Jewel4" parent="Jewels" instance=ExtResource("5_u7hr5")]
+modulate = Color(0.454902, 0.905882, 1, 1)
+position = Vector2(4228, 298)
+scale = Vector2(1.2, 1.28)
+tint = Color(0.454902, 0.905882, 1, 1)
+
+[node name="Platforms" type="Node2D" parent="."]
+position = Vector2(1920, -164)
+
+[node name="Platform" parent="Platforms" instance=ExtResource("4_gd51l")]
+position = Vector2(-288, -56)
+width = 2
+
+[node name="Platform2" parent="Platforms" instance=ExtResource("4_gd51l")]
+position = Vector2(42, -51)
+width = 2
+
+[node name="Platform3" parent="Platforms" instance=ExtResource("4_gd51l")]
+position = Vector2(375, -53)
+width = 2
+
+[node name="Moving platform" parent="Platforms" instance=ExtResource("8_2cqfq")]
+position = Vector2(1888, -120)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Platforms/Moving platform"]
+libraries = {
+&"": SubResource("AnimationLibrary_cegan")
+}
+autoplay = "left_right"
+
+[node name="Player" parent="." instance=ExtResource("2_7yl00")]
+position = Vector2(495, 751)
+collision_layer = 1
+collision_mask = 7
+sprite_frames = ExtResource("9_ycdy4")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(0, 15)
+limit_left = 0
+limit_bottom = 1080
+position_smoothing_enabled = true
+
+[node name="HUD" parent="." instance=ExtResource("6_mp7wy")]
+
+[node name="Enemy" parent="." instance=ExtResource("9_l6smt")]
+position = Vector2(1616, 764)
+speed = 200.0
+
+[node name="Enemy2" parent="." instance=ExtResource("9_l6smt")]
+position = Vector2(3279, 708)
+speed = 200.0
+
+[node name="Enemy3" parent="." instance=ExtResource("9_l6smt")]
+position = Vector2(461, 234)
+speed = 200.0
+
+[node name="Flag" parent="." instance=ExtResource("12_dkbog")]
+position = Vector2(4324, -74)
+sprite_frames = ExtResource("14_vivmo")
+
+[node name="MultiplayerCamera" type="Camera2D" parent="."]
+position = Vector2(0, 15)
+limit_left = 0
+limit_bottom = 1080
+position_smoothing_enabled = true
+script = ExtResource("13_0d2mj")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_2cqfq")
+autoplay = true

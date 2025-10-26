@@ -1,7 +1,7 @@
-[gd_scene load_steps=20 format=4 uid="uid://dhcpt1kt8cs0g"]
+[gd_scene load_steps=21 format=4 uid="uid://dhcpt1kt8cs0g"]
 
 [ext_resource type="PackedScene" uid="uid://8st4scqt06l8" path="res://components/player/player.tscn" id="2_7yl00"]
-[ext_resource type="PackedScene" uid="uid://jnrusvm3gric" path="res://spaces/background.tscn" id="2_tb5a2"]
+[ext_resource type="PackedScene" uid="uid://jnrusvm3gric" path="res://assets/background.tscn" id="2_tb5a2"]
 [ext_resource type="PackedScene" uid="uid://cswheshouik14" path="res://rules_goals/game_logic.tscn" id="3_xbkvd"]
 [ext_resource type="PackedScene" uid="uid://danlrmsfmsros" path="res://spaces/tilemap.tscn" id="3_yfnmv"]
 [ext_resource type="PackedScene" uid="uid://dthyncc3spfks" path="res://spaces/dangerzone.tscn" id="4_2mg6t"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://boqbxvbja884q" path="res://scripts/multiplayer_camera.gd" id="13_0d2mj"]
 [ext_resource type="SpriteFrames" uid="uid://bvs66x1xcm6k8" path="res://components/flag/flag-spriteframes-red.tres" id="14_vivmo"]
 [ext_resource type="AudioStream" uid="uid://d23ff1wkh5fe3" path="res://assets/624126__dibko__morning-chirping-of-birds.mp3" id="16_2cqfq"]
+[ext_resource type="PackedScene" uid="uid://dkc1t888aeae6" path="res://jungle_background.tscn" id="17_yaehf"]
 
 [sub_resource type="Animation" id="Animation_074og"]
 length = 0.001
@@ -62,6 +63,7 @@ win_by_collecting_coins = true
 win_by_reaching_flag = true
 
 [node name="Background" parent="." instance=ExtResource("2_tb5a2")]
+visible = false
 tint = Color(0.38773, 0.682904, 0.395715, 1)
 
 [node name="Dangerzone" parent="." instance=ExtResource("4_2mg6t")]
@@ -174,3 +176,5 @@ script = ExtResource("13_0d2mj")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("16_2cqfq")
 autoplay = true
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("17_yaehf")]

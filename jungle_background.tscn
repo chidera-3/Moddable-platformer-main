@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkc1t888aeae6"]
+
+[ext_resource type="Texture2D" uid="uid://c126ea8fg65ne" path="res://assets/jungle_background.jpg" id="1_wrkpf"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+position = Vector2(24, -954)
+
+[node name="ColorRect" type="ColorRect" parent="ParallaxLayer"]
+offset_top = 430.0
+offset_right = 4620.0
+offset_bottom = 1065.0
+color = Color(0.172549, 0.568627, 0.0705882, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="JungleBackground" type="Sprite2D" parent="ParallaxLayer"]
+modulate = Color(0.509804, 0.541176, 0.682353, 1)
+position = Vector2(4663, 1210)
+scale = Vector2(1.14692, 1.16692)
+texture = ExtResource("1_wrkpf")
+
+[node name="JungleBackground2" type="Sprite2D" parent="ParallaxLayer"]
+modulate = Color(0.509804, 0.541176, 0.682353, 1)
+position = Vector2(1158.25, 1226.25)
+scale = Vector2(1.18333, 1.17423)
+texture = ExtResource("1_wrkpf")
+
+[node name="JungleBackground3" type="Sprite2D" parent="ParallaxLayer"]
+modulate = Color(0.509804, 0.541176, 0.682353, 1)
+position = Vector2(3045, 1213)
+scale = Vector2(1.14667, 1.20192)
+texture = ExtResource("1_wrkpf")
